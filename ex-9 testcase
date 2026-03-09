@@ -1,0 +1,23 @@
+import pandas as pd
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# Data
+data = {
+    "FactorA": ["A1","A1","A1","A1","A2","A2","A2","A2","A3","A3","A3","A3"],
+    "FactorB": ["B1","B1","B2","B2","B1","B1","B2","B2","B1","B1","B2","B2"],
+    "Value":   [8,9,6,7,10,11,8,9,12,13,10,11]
+}
+
+df = pd.DataFrame(data)
+
+# Two-way ANOVA model
+model = ols('Value ~ C(FactorA) + C(FactorB) + C(FactorA):C(FactorB)', data=df).fit()
+
+anova_table = sm.stats.anova_lm(model, typ=2)
+
+print("Dataset:")
+print(df)
+
+print("\nTwo-Way ANOVA Table:")
+print(anova_table)
